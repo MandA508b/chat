@@ -15,7 +15,7 @@ const io = socketio(server);
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000','https://heroic-profiterole-cc695c.netlify.app']
+  origin: ['http://localhost:3000','https://main--voluble-pegasus-6a9597.netlify.app']
 }))
 app.use(router);
 
