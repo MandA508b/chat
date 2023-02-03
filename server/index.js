@@ -29,10 +29,10 @@ io.on('connect', (socket) => {
 
       for (let messagesKey in messages) {
         if(messages[messagesKey].userName === user.name){
-          socket.emit('message', { user: user.name, text: messages[messagesKey].messageText });
+          socket.emit('message', { user: user.name + messages[messagesKey].date.slice(11), text: messages[messagesKey].messageText });
 
         }else{
-          socket.emit('message', { user: `${messages[messagesKey].userName}`, text: `${messages[messagesKey].messageText}`});
+          socket.emit('message', { user: `${messages[messagesKey].userName + messages[messagesKey].date.slice(11)}`, text: `${messages[messagesKey].messageText}`});
 
         }
       }
