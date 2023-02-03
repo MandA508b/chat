@@ -2,7 +2,7 @@ const ChatData = require('../models/chatData.model')
 
 class chatDataController{
     async addMessage(chatName, userName, messageText){
-        await ChatData.create({chatName, userName, messageText})
+        return await ChatData.create({chatName, userName, messageText})
     }
 
     async getAllMessageByChatName(chatName){

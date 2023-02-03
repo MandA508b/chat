@@ -49,8 +49,9 @@ io.on('connect', (socket) => {
   socket.on('sendMessage', async (message, callback) => {
     try{
       const user = await getUser(socket.id);
-      io.to(user.room).emit('message', { user: user.name, text: message });
-      await addMessage(user.room, user.name, message)
+      const chatData = await addMessage(user.room, user.name, message)
+      io.to(user.room).emit('message', { user: user.name + " " + chatData.date.slice(11), text: message });
+
 
       callback();
     }catch (e){
