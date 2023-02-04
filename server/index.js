@@ -25,9 +25,7 @@ io.on('connect', (socket) => {
       const user = await addUser({ id: socket.id, name, room });
 
       socket.join(user.room);
-
-      socket.emit('message', { user: 'admin', text: `${user.name}, зайшов до чату!`});
-      socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} зайшов до чату!` });
+      const chatData = await addMessage(user.room, user.name, `${user.name}, зайшов до чату!`)
 
       const messages = await getAllMessageByChatName(user.room)
 
