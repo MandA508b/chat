@@ -29,10 +29,10 @@ io.on('connect', (socket) => {
 
       for (let messagesKey in messages) {
         if(messages[messagesKey].userName === user.name){
-          socket.emit('message', { user: user.name + messages[messagesKey].date.slice(11), text: messages[messagesKey].messageText });
+          socket.emit('message', { user: user.name , text: messages[messagesKey].messageText, date: messages[messagesKey].date });
 
         }else{
-          socket.emit('message', { user: `${messages[messagesKey].userName + messages[messagesKey].date.slice(11)}`, text: `${messages[messagesKey].messageText}`});
+          socket.emit('message', { user: `${messages[messagesKey].userName}`, text: `${messages[messagesKey].messageText}`, date: messages[messagesKey].date});
 
         }
       }
@@ -50,8 +50,7 @@ io.on('connect', (socket) => {
     try{
       const user = await getUser(socket.id);
       const chatData = await addMessage(user.room, user.name, message)
-      console.log(user.name + " " + chatData.date.slice(11))
-      io.to(user.room).emit('message', { user: user.name , text: message });
+      io.to(user.room).emit('message', { user: user.name , text: message , date: chatData.date});
 
 
       callback();
