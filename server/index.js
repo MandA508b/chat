@@ -23,7 +23,13 @@ io.on('connect', (socket) => {
   socket.on('join', async ({ name, room }, callback) => {
     try{
       const user = await addUser({ id: socket.id, name, room });
+
+      if(error) return callback(error);
+
       socket.join(user.room);
+
+      socket.emit('message', { user: 'admin', text: `${user.name}, зайшов до чату!`});
+      socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} зайшов до чату!` });
 
       const messages = await getAllMessageByChatName(user.room)
 
