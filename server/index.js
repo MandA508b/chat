@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
+const Advertisement = require('./models/advertisement.model')
 
 const { addUser, getUser, getUsersInRoom } = require('./controllers/chatUser.controller');
 const { addMessage, getAllMessageByChatName } = require('./controllers/chatData.controller');
@@ -50,6 +51,16 @@ io.on('connect', (socket) => {
 
   socket.on('sendMessage', async (message, callback) => {
     try{
+      const advertisementId = user.room.slice(0, 24)
+      const advertisement = await Advertisement.findById(advertisementId)
+
+      if(advertisement.statusStage === "reserved"){
+        return  io.to(user.room).emit('message', { user: "LigaBot" , text: "Наразі ви не можете надсилати повідомлення до цього чату, зарезервований інший чат до цього оголошення!" , date: chatData.date});
+      }else
+        if(advertisement.statusStage === "fixed"){
+         return io.to(user.room).emit('message', { user: "LigaBot" , text: "Наразі ви не можете надсилати повідомлення до цього чату, зафіксований інший чат до цього оголошення!" , date: chatData.date});
+        }
+
       const user = await getUser(socket.id);
       const chatData = await addMessage(user.room, user.name, message)
       io.to(user.room).emit('message', { user: user.name , text: message , date: chatData.date});
