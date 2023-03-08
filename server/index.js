@@ -26,7 +26,7 @@ io.on('connect', (socket) => {
       const user = await addUser({ id: socket.id, name, room });
 
       socket.join(user.room);
-      const chatData = await addMessage(user.room, "Admin", `${user.name}, зайшов до чату!`)
+      const chatData = await addMessage(user.room, "LigaBot", `${user.name}, зайшов до чату!`)
 
       const messages = await getAllMessageByChatName(user.room)
 
