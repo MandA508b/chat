@@ -16,7 +16,7 @@ const io = socketio(server);
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000','https://main--voluble-pegasus-6a9597.netlify.app']
+  origin: ['https://chatclient-liga-bot.telegram-crm.work','http://localhost:3000','https://main--voluble-pegasus-6a9597.netlify.app']
 }))
 app.use(router);
 
@@ -73,4 +73,4 @@ io.on('connect', (socket) => {
   });
 });
 
-server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
+server.listen(process.env.PORT || 6000, () => console.log(`Server has started.`));
