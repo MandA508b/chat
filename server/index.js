@@ -52,7 +52,8 @@ io.on('connect', (socket) => {
   socket.on('sendMessage', async (message, callback) => {
     try{
       const user = await getUser(socket.id);
-      const advertisementId = user.room.slice(0, 24)
+      console.log(user.room.toString())
+      const advertisementId = user.room.toString().slice(0, 24)
       const advertisement = await Advertisement.findById(advertisementId)
 
       if(advertisement.statusStage === "reserved"){
