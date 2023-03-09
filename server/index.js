@@ -51,6 +51,7 @@ io.on('connect', (socket) => {
 
   socket.on('sendMessage', async (message, callback) => {
     try{
+      const user = await getUser(socket.id);
       const advertisementId = user.room.slice(0, 24)
       const advertisement = await Advertisement.findById(advertisementId)
 
@@ -60,8 +61,7 @@ io.on('connect', (socket) => {
         if(advertisement.statusStage === "fixed"){
          return io.to(user.room).emit('message', { user: "LigaBot" , text: "Наразі ви не можете надсилати повідомлення до цього чату, зафіксований інший чат до цього оголошення!" , date: chatData.date});
         }
-
-      const user = await getUser(socket.id);
+      
       const chatData = await addMessage(user.room, user.name, message)
       io.to(user.room).emit('message', { user: user.name , text: message , date: chatData.date});
 
