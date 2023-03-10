@@ -57,12 +57,12 @@ io.on('connect', (socket) => {
       const advertisement = await Advertisement.findById(advertisementId)
       console.log({advertisement})
       if(advertisement.statusStage === "reserved"){
-        const chatDataReserved = await addMessage(user.room, user.name, "Наразі ви не можете надсилати повідомлення до цього чату, зарезервований інший чат до цього оголошення!")
-        return  io.to(user.room).emit('message', { user: "LigaBot" , text: "Наразі ви не можете надсилати повідомлення до цього чату, зарезервований інший чат до цього оголошення!" , date: chatDataReserved.date});
+        const date = (new Date(Date.now()+60*2*60*1000)).toString()
+        return  io.to(user.room).emit('message', { user: "LigaBot" , text: "Наразі ви не можете надсилати повідомлення до цього чату, зарезервований інший чат до цього оголошення!" , date: date});
       }else
         if(advertisement.statusStage === "fixed"){
-         const chatDataFixed = await addMessage(user.room, user.name, "Наразі ви не можете надсилати повідомлення до цього чату, зафіксований інший чат до цього оголошення!")
-         return io.to(user.room).emit('message', { user: "LigaBot" , text: "Наразі ви не можете надсилати повідомлення до цього чату, зафіксований інший чат до цього оголошення!" , date: chatDataFixed.date});
+         const date = (new Date(Date.now()+60*2*60*1000)).toString()
+         return io.to(user.room).emit('message', { user: "LigaBot" , text: "Наразі ви не можете надсилати повідомлення до цього чату, зафіксований інший чат до цього оголошення!" , date: date});
         }
       
       const chatData = await addMessage(user.room, user.name, message)
